@@ -33,8 +33,11 @@ Designed and developed a fully responsive, MERN stack interactive website for Di
 
 ## Screenshot of Project
 <img width="2876" height="1613" alt="Screenshot 2025-07-11 163950" src="https://github.com/user-attachments/assets/338e8076-b969-4a47-993b-6988e1da5f2c" />
+
+## How to Run Locally
 1. Clone the repo:  
-   `git clone https://github.com/your-username/dialogue-cafe-website.git`
+   https://github.com/Ojas-Mahajan/MERN-Dialouge-.git
+
 2. Install dependencies for both frontend and backend:
    - Frontend:  
      `cd client`  
