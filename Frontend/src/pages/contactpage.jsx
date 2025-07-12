@@ -226,7 +226,8 @@ export default function ContactPage() {
         <h3>📲 Scan to Follow Us</h3>
         <div className="menu-grid">
           <img
-            src="/Images/NewQR.png"
+            src="/assets/Images/NewQR.png"
+          
             alt="Follow Us QR Code"
             className="menu-photo"
             width="250"
