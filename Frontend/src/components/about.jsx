@@ -70,9 +70,8 @@ const About = () => {
 
       <div className="about-images" data-aos="fade-left">
         <img src={cafe1} alt="Cafe Entrance" />
-        {/* If you want to add more images, import and add below: */}
-        {/* <img src={bar} alt="Food Variety" />
-        <img src={beverages} alt="Beverage Setup" /> */}
+        {}
+        {}
       </div>
     </section>
   );

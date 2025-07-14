@@ -73,7 +73,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink to="/contact" onClick={() => setShowNav(false)}>
-                Contact Us
+                Contact 
               </NavLink>
             </li>
           </ul>

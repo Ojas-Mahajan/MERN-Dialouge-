@@ -1,19 +1,37 @@
-
+// // export default App;
 // import React, { useEffect } from "react";
 // import AOS from "aos";
 // import "aos/dist/aos.css";
-
+// import { Routes, Route } from "react-router-dom";
 // import Navbar from "./components/navbar";
+// import Footer from "./components/footer";
 // import Hero from "./components/hero";
 // import About from "./components/about";
 // import Gallery from "./components/gallery";
-// import MenuQR from "./components/menu";
+// // import MenuQR from "./components/menu";
 // import Testimonials from "./components/testimonials";
-// import MapSection from "./components/map"; //
-// import Footer from "./components/footer";
+// import MapSection from "./components/map";
 // import FloatingSocial from "./components/floatingsocial";
 
-// function App() {
+// import MenuPage from "./pages/menupage";         // full menu page
+// import GalleryPage from "./pages/gallerypage";   // full gallery page
+// import ContactPage from "./pages/contactpage";   // full contact page
+
+// function Home() {
+//   return (
+//     <>
+//       <Hero />
+//       <About />
+//       <Testimonials />
+//       <Gallery />
+//       {/* <MenuQR /> */}
+//       <MapSection />
+//       <FloatingSocial />
+//     </>
+//   );
+// }
+
+// export default function App() {
 //   useEffect(() => {
 //     AOS.init({
 //       duration: 400, // faster (default AOS speed)
@@ -24,19 +42,19 @@
 //   return (
 //     <>
 //       <Navbar />
-//       <Hero />
-//       <About />
-//       <Testimonials />
-//       <Gallery />
-//       <MenuQR />
-//             <MapSection />  
+//       <Routes>
+//         <Route path="/" element={<Home />} />
+//         <Route path="/menu" element={<MenuPage />} />
+//         <Route path="/gallery" element={<GalleryPage />} />
+//         <Route path="/contact" element={<ContactPage />} />
+//         {/* Optionally, add <Route path="*" element={<NotFound />} /> */}
+//       </Routes>
 //       <Footer />
-//       <FloatingSocial />
 //     </>
 //   );
 // }
 
-// export default App;
+
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -46,14 +64,15 @@ import Footer from "./components/footer";
 import Hero from "./components/hero";
 import About from "./components/about";
 import Gallery from "./components/gallery";
-import MenuQR from "./components/menu";
+// import MenuQR from "./components/menu";
 import Testimonials from "./components/testimonials";
 import MapSection from "./components/map";
 import FloatingSocial from "./components/floatingsocial";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
-import MenuPage from "./pages/menupage";         // full menu page
-import GalleryPage from "./pages/gallerypage";   // full gallery page
-import ContactPage from "./pages/contactpage";   // full contact page
+import MenuPage from "./pages/menupage";
+import GalleryPage from "./pages/gallerypage";
+import ContactPage from "./pages/contactpage";
 
 function Home() {
   return (
@@ -62,7 +81,7 @@ function Home() {
       <About />
       <Testimonials />
       <Gallery />
-      <MenuQR />
+      {/* <MenuQR /> */}
       <MapSection />
       <FloatingSocial />
     </>
@@ -72,14 +91,15 @@ function Home() {
 export default function App() {
   useEffect(() => {
     AOS.init({
-      duration: 400, // faster (default AOS speed)
-      once: false,   // animation triggers every scroll in view
+      duration: 400,
+      once: false,
     });
   }, []);
 
   return (
     <>
       <Navbar />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<MenuPage />} />
