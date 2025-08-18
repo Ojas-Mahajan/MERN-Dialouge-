@@ -29,7 +29,7 @@ Designed and developed a fully responsive, MERN stack interactive website for Di
 (MongoDB, Express.js, React, Node.js)
 
 ## Live Demo
-> The website will be hosted live on a domain.
+https://dialoguecafe.in/
 
 ## Screenshot of Project
 <img width="2876" height="1613" alt="Screenshot 2025-07-11 163950" src="https://github.com/user-attachments/assets/338e8076-b969-4a47-993b-6988e1da5f2c" />
