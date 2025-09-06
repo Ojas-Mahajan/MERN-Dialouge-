@@ -1,11 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-// import axios from "axios";
+import axios from "axios"; // <-- uncomment this!
 import logo from "../assets/Images/dialogue cafe.jpg";
 import socialQR from "../assets/Images/NewQR.png";
 
-// ✅ Thank You Modal (on form submit)
+// Thank You Modal (success)
 function ThankYouModal({ open, onClose, logo }) {
   if (!open) return null;
   return (
@@ -21,7 +22,25 @@ function ThankYouModal({ open, onClose, logo }) {
   );
 }
 
-// ✅ QR Modal (on page load)
+// Error Modal (failure)
+function ErrorModal({ open, onClose }) {
+  if (!open) return null;
+  return (
+    <div style={overlayStyle}>
+      <div style={modalStyle}>
+        <button style={closeButtonStyle} onClick={onClose}>×</button>
+        <div style={{
+          ...thankYouTextStyle,
+          background: "#ae3a3a", // red
+        }}>
+          Sorry! Your data was <b>not</b> submitted. Please try again later.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// QR Modal (on page load)
 function QRPopupModal({ open, onClose, qrImage }) {
   if (!open) return null;
   return (
@@ -36,27 +55,40 @@ function QRPopupModal({ open, onClose, qrImage }) {
 }
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", phone: "", email: "" });
-  const [modalOpen, setModalOpen] = useState(false);
-  const [qrModalOpen, setQRModalOpen] = useState(true); // Auto show QR popup on load
+  const [form, setForm] = useState({ name: "", phone: "", email: "", message: "" });
+  const [modalOpen, setModalOpen] = useState(false);      // success modal
+  const [errorOpen, setErrorOpen] = useState(false);      // error modal
+  const [qrModalOpen, setQRModalOpen] = useState(true);
 
   useEffect(() => {
     AOS.init({ duration: 400, once: false });
-
-    // Optional: Auto close QR popup after 7 seconds
-    // const timer = setTimeout(() => setQRModalOpen(false), 7000);
-    // return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (modalOpen || errorOpen || qrModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [modalOpen, errorOpen, qrModalOpen]);
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async e => {
     e.preventDefault();
-    // try {
-    //   await axios.post("http://localhost:5000/api/contact", form);
-    // } catch (e) {}
-    setModalOpen(true);
-    setForm({ name: "", phone: "", email: "" });
+    try {
+
+      
+      // await axios.post("http://localhost:5000/api/contact", form);
+       await axios.post("https://dialogue-cafe-backend.onrender.com/api/contact", form);
+      setModalOpen(true);         // success!
+      setForm({ name: "", phone: "", email: "", message: "" });
+    } catch (e) {
+      setErrorOpen(true);         // failed
+    }
   };
 
   return (
@@ -68,46 +100,43 @@ export default function ContactPage() {
         <form onSubmit={handleSubmit} style={formStyle}>
           <input name="name" value={form.name} onChange={handleChange} placeholder="Your Name" required style={inputStyle} />
           <input name="phone" value={form.phone} onChange={handleChange} placeholder="Your Phone number" required style={inputStyle} />
-          <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="Your Email" required style={inputStyle} />
+          <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="Your Email Address" required style={inputStyle} />
+          <textarea name="message" value={form.message} onChange={handleChange} placeholder="Your Message" required style={textareaStyle} />
           <button type="submit" style={submitButtonStyle}>Submit</button>
         </form>
       </section>
 
       <ThankYouModal open={modalOpen} onClose={() => setModalOpen(false)} logo={logo} />
+      <ErrorModal open={errorOpen} onClose={() => setErrorOpen(false)} />
       <QRPopupModal open={qrModalOpen} onClose={() => setQRModalOpen(false)} qrImage={socialQR} />
 
-      <div className="form" style={{ marginTop: 30, textAlign: "center" }}>
-        <p>We'd love to hear from you!</p>
-        <p>
+      <div className="form"
+        style={{
+          marginTop: 18,
+          marginLeft: "auto",
+          marginRight: "auto",
+          maxWidth: 440,
+          textAlign: "center",
+        }}
+      >
+        <p data-aos="fade-up" data-aos-delay="0">We'd love to hear from you!</p>
+        <p data-aos="fade-up" data-aos-delay="80">
           Have questions about reservations, menu details, or events? Use the form above and we’ll get back to you shortly.
         </p>
-        <p>
+        <p data-aos="fade-up" data-aos-delay="160">
           We’re open daily from <strong>10:30 AM to 10:30 PM</strong>.
         </p>
       </div>
-
-      {/* Fallback QR placement if user closes popup */}
-      {/* <div className="menu-category" id="social-qr">
-        <h3>📲 Scan to Follow Us</h3>
-        <div className="menu-grid">
-          <img
-            src={socialQR}
-            alt="Follow Us QR Code"
-            className="menu-photo"
-            width="250"
-            height="250"
-            style={{ borderRadius: 10, border: "1px solid #ddd" }}
-          />
-        </div>
-      </div> */}
     </main>
   );
 }
 
+// ...all your style objects remain unchanged!
+
+
 //
 // 🔧 Style Objects
 //
-
 const contactSectionStyle = {
   display: "flex",
   flexDirection: "column",
@@ -148,6 +177,14 @@ const inputStyle = {
   background: "#faf8ff",
   transition: "border 0.2s",
   outline: "none",
+};
+
+// 👇 NEW textarea style (copies input style, makes taller & resizable)
+const textareaStyle = {
+  ...inputStyle,
+  minHeight: "90px",
+  resize: "vertical",
+  fontFamily: "inherit",
 };
 
 const submitButtonStyle = {
@@ -251,3 +288,5 @@ const qrImageStyle = {
   borderRadius: 10,
   border: "1px solid #ddd",
 };
+
+
